@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #F5E6C8;
+    --bg-warm: #EDE0C8;
+    --ink: #1A1A1A;
+    --text: #2C2C2C;
+    --red: #B83A2B;
+    --brown: #5C3A1E;
+    --gold: #C9A227;
+    --shadow: rgba(26,26,26,0.08);
+  }
+  body {
+    font-family: 'Noto Serif SC', 'SimSun', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+}

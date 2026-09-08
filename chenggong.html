@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>呈贡瓦猫 — 俏皮灵动 · 瓦猫新生</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F5E6C8; --bg-warm: #EDE0C8; --ink: #1A1A1A;
+      --text: #2C2C2C; --red: #B83A2B; --brown: #5C3A1E; --gold: #C9A227;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Serif SC', 'SimSun', serif;
+      background: var(--bg); color: var(--text); line-height: 1.8;
+    }
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      background: rgba(245,230,200,0.95); backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(92,58,30,0.15);
+      padding: 0 5%; height: 64px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-family: 'Ma Shan Zheng', cursive; font-size: 1.8rem; color: var(--ink); letter-spacing: 4px; }
+    .logo span { color: var(--red); font-size: 1.2rem; margin-left: 8px; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text); font-size: 0.95rem; position: relative; padding: 4px 0; transition: color 0.3s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--red); transition: width 0.3s; }
+    .nav-links a:hover { color: var(--red); }
+    .nav-links a:hover::after { width: 100%; }
+    .mobile-menu { display: none; font-size: 1.5rem; cursor: pointer; }
+
+    /* 页面标题区 */
+    .page-hero {
+      min-height: 60vh; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--bg-warm) 0%, var(--bg) 100%);
+      position: relative; padding-top: 64px; text-align: center;
+    }
+    .page-hero::before {
+      content: '呈贡'; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      font-family: 'Ma Shan Zheng', cursive; font-size: 10rem; color: var(--red); opacity: 0.06; z-index: 0;
+    }
+    .page-hero-content { position: relative; z-index: 1; }
+    .page-hero h1 { font-family: 'Ma Shan Zheng', cursive; font-size: 3.6rem; color: var(--ink); margin-bottom: 12px; }
+    .page-hero .subtitle { color: var(--brown); font-size: 1.2rem; letter-spacing: 4px; }
+    .divider { width: 60px; height: 3px; background: var(--red); margin: 20px auto; border-radius: 2px; }
+
+    /* 内容区 */
+    .content { max-width: 1000px; margin: 0 auto; padding: 80px 5%; }
+    .content h2 {
+      font-family: 'Ma Shan Zheng', cursive; font-size: 2rem; color: var(--ink);
+      margin: 48px 0 20px; display: flex; align-items: center; gap: 12px;
+    }
+    .content h2::before { content: ''; width: 4px; height: 28px; background: var(--red); border-radius: 2px; }
+    .content p { margin-bottom: 16px; text-align: justify; font-size: 1.05rem; }
+    .highlight-box {
+      background: rgba(184,58,43,0.06); border-left: 4px solid var(--red);
+      padding: 24px 28px; margin: 28px 0; border-radius: 0 8px 8px 0;
+    }
+    .highlight-box p { margin: 0; color: var(--brown); font-size: 1.1rem; }
+
+    /* 图片展示 */
+    .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 40px 0; }
+    .gallery-item { border-radius: 8px; overflow: hidden; box-shadow: 0 8px 24px rgba(26,26,26,0.08); }
+    .gallery-item img { width: 100%; display: block; transition: transform 0.4s; }
+    .gallery-item:hover img { transform: scale(1.05); }
+    .gallery-caption { padding: 12px 16px; background: var(--bg-warm); font-size: 0.9rem; color: var(--brown); text-align: center; }
+
+    /* 特征标签 */
+    .traits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+.trait {
+  padding: 10px 12px;
+  background: var(--ink); color: var(--gold);
+  border-radius: 4px; font-size: 0.9rem; letter-spacing: 2px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+    /* 返回按钮 */
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 8px; margin-top: 40px;
+      padding: 12px 28px; background: transparent; color: var(--ink);
+      border: 2px solid var(--brown); border-radius: 4px; text-decoration: none;
+      transition: all 0.3s; font-family: 'Noto Serif SC', serif;
+    }
+    .back-btn:hover { background: var(--brown); color: var(--bg); }
+
+    footer {
+      background: var(--ink); color: rgba(245,230,200,0.7); text-align: center;
+      padding: 40px 5%; font-size: 0.9rem; margin-top: 60px;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .mobile-menu { display: block; }
+      .page-hero h1 { font-size: 2.6rem; }
+      .page-hero::before { font-size: 6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">瓦猫新生 <span>文化中国</span></div>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a ></li>
+      <li><a href="chenggong.html">呈贡瓦猫</a ></li>
+      <li><a href="dali.html">大理瓦猫</a ></li>
+      <li><a href="lijiang.html">丽江瓦猫</a ></li>
+    </ul>
+    <div class="mobile-menu">☰</div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="subtitle">滇中腹地 · 昆明呈贡</div>
+      <h1>呈贡瓦猫</h1>
+      <div class="divider"></div>
+      <p style="color: var(--brown); font-size: 1.1rem;">俏皮灵动 · 奶凶可爱 · 天圆地方</p >
+    </div>
+  </section>
+
+  <div class="content">
+    <div class="gallery">
+      <div class="gallery-item">
+        <img src="images/wamao-chenggong.jpg" alt="呈贡瓦猫">
+        <div class="gallery-caption">呈贡瓦猫实物 — 与滇瓦猫 X 昆明瓦猫</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/wamao-detail.jpg" alt="瓦猫细节">
+        <div class="gallery-caption">瓦猫细节特写 — 张口露齿</div>
+      </div>
+    </div>
+
+    <h2>形貌特征</h2>
+    <p>
+      呈贡瓦猫最显著的特征，是<strong>张口露齿，双目炯炯，耳朵高耸，形貌活泼</strong>。
+      脑门上的"王"字昭示着它是威风的"大猫"——老虎。
+      胸前镶有一块方形八卦图，用以克邪降鬼。
+    </p >
+    <div class="highlight-box">
+      <p>四肢站立，尾朝内、尾后中空，寓意<strong>招财进宝</strong>。其造型<strong>圆头圆脑、脚踩瓦片</strong>，暗合"天圆地方"之意。</p >
+    </div>
+    <p>
+      既有庄重的威仪，也不乏憨态可掬的<strong>"奶凶"</strong>气质。
+      呈贡瓦猫在昆明周边地区广泛流传，是云南瓦猫家族中最具亲和力的一支。
+    </p >
+
+    <h2>文化寓意</h2>
+    <p>
+      呈贡瓦猫承载着滇中百姓对家宅平安、财源广进的美好祈愿。
+      "王"字纹象征虎威镇宅，八卦图代表阴阳调和、驱邪避凶，
+      而中空的尾部设计则暗含"财气内聚、不漏不泄"的风水智慧。
+    </p >
+
+    <div class="traits">
+      <span class="trait">张口露齿</span>
+      <span class="trait">王字纹</span>
+      <span class="trait">八卦图</span>
+      <span class="trait">尾朝内</span>
+      <span class="trait">圆头圆脑</span>
+      <span class="trait">奶凶气质</span>
+    </div>
+
+    <a href="index.html" class="back-btn">← 返回主页</a >
+  </div>
+
+  <footer>
+    <p>“文化中国”参赛作品 · 云南瓦猫文化数字互动体验</p >
+  </footer>
+
+</body>
+</html>

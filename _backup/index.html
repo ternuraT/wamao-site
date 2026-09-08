@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>瓦猫新生 — 屋脊上的守护灵</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F5E6C8;
+      --bg-warm: #EDE0C8;
+      --ink: #1A1A1A;
+      --text: #2C2C2C;
+      --red: #B83A2B;
+      --brown: #5C3A1E;
+      --gold: #C9A227;
+      --shadow: rgba(26,26,26,0.08);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Serif SC', 'SimSun', serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+    /* 导航 */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      background: rgba(245,230,200,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(92,58,30,0.15);
+      padding: 0 5%;
+      height: 64px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Ma Shan Zheng', cursive;
+      font-size: 1.8rem; color: var(--ink); letter-spacing: 4px;
+    }
+    .logo span { color: var(--red); font-size: 1.2rem; margin-left: 8px; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--text); font-size: 0.95rem;
+      position: relative; padding: 4px 0; transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+      background: var(--red); transition: width 0.3s;
+    }
+    .nav-links a:hover { color: var(--red); }
+    .nav-links a:hover::after { width: 100%; }
+    .mobile-menu { display: none; font-size: 1.5rem; cursor: pointer; }
+
+    /* Hero区 */
+    .hero {
+      min-height: 100vh; position: relative; display: flex; align-items: center;
+      background: url('images/hero-bg.jpg') center/cover no-repeat;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(245,230,200,0.85) 0%, rgba(245,230,200,0.4) 50%, rgba(245,230,200,0.2) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2; padding: 0 8%; max-width: 700px;
+    }
+    .hero-subtitle {
+      font-size: 1.1rem; color: var(--brown); letter-spacing: 6px; margin-bottom: 16px;
+      border-left: 3px solid var(--red); padding-left: 16px;
+    }
+    .hero h1 {
+      font-family: 'Ma Shan Zheng', cursive; font-size: 5rem; color: var(--ink);
+      line-height: 1.1; margin-bottom: 24px; text-shadow: 2px 2px 0 rgba(245,230,200,0.8);
+    }
+    .hero-desc {
+      font-size: 1.15rem; color: var(--text); max-width: 520px; margin-bottom: 40px;
+      text-align: justify;
+    }
+    .btn-group { display: flex; gap: 20px; flex-wrap: wrap; }
+    .btn {
+      padding: 14px 36px; border-radius: 4px; text-decoration: none; font-size: 1rem;
+      transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Noto Serif SC', serif; cursor: pointer; border: none;
+    }
+    .btn-primary {
+      background: var(--red); color: #fff;
+      box-shadow: 0 4px 16px rgba(184,58,43,0.3);
+    }
+    .btn-primary:hover { background: #9C2E20; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--ink); border: 2px solid var(--brown);
+    }
+    .btn-outline:hover { background: var(--brown); color: var(--bg); }
+
+    /* 地区入口 */
+    .regions {
+      padding: 100px 5%; background: var(--bg-warm);
+    }
+    .section-header { text-align: center; margin-bottom: 60px; }
+    .section-header h2 {
+      font-family: 'Ma Shan Zheng', cursive; font-size: 2.8rem; color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .section-header p { color: var(--brown); font-size: 1.05rem; letter-spacing: 2px; }
+    .divider {
+      width: 60px; height: 3px; background: var(--red); margin: 16px auto;
+      border-radius: 2px;
+    }
+    .region-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px; max-width: 1200px; margin: 0 auto;
+    }
+    .region-card {
+      background: var(--bg); border-radius: 8px; overflow: hidden;
+      box-shadow: 0 8px 32px var(--shadow); transition: transform 0.4s, box-shadow 0.4s;
+      border: 1px solid rgba(92,58,30,0.1); text-decoration: none; color: inherit;
+      display: block;
+    }
+    .region-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 48px rgba(26,26,26,0.12);
+    }
+    .region-img {
+      height: 350px; background-size: cover; background-position: top;
+      position: relative;
+    }
+    .region-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,26,26,0.5), transparent);
+    }
+    .region-tag {
+      position: absolute; top: 16px; right: 16px; z-index: 2;
+      background: var(--red); color: #fff; padding: 4px 14px;
+      border-radius: 20px; font-size: 0.8rem; letter-spacing: 2px;
+    }
+    .region-body { padding: 28px; }
+    .region-body h3 {
+      font-size: 1.5rem; color: var(--ink); margin-bottom: 10px;
+      font-family: 'Ma Shan Zheng', cursive;
+    }
+    .region-body p { color: var(--text); font-size: 0.95rem; line-height: 1.8; }
+    .region-traits {
+      display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;
+    }
+    .trait {
+      padding: 4px 12px; background: rgba(184,58,43,0.08);
+      color: var(--red); border-radius: 4px; font-size: 0.8rem;
+      border: 1px solid rgba(184,58,43,0.2);
+    }
+
+    /* 文化溯源 */
+    .culture {
+      padding: 100px 5%; display: flex; align-items: center; gap: 60px;
+      max-width: 1200px; margin: 0 auto; flex-wrap: wrap;
+    }
+    .culture-img {
+      flex: 1; min-width: 300px; border-radius: 8px; overflow: hidden;
+      box-shadow: 0 12px 40px var(--shadow); position: relative;
+    }
+    .culture-img img { width: 100%; display: block; }
+    .culture-img::before {
+      content: '瓦猫'; position: absolute; top: -20px; left: -20px;
+      font-family: 'Ma Shan Zheng', cursive; font-size: 4rem; color: var(--red);
+      opacity: 0.15; z-index: -1;
+    }
+    .culture-text { flex: 1; min-width: 300px; }
+    .culture-text h2 {
+      font-family: 'Ma Shan Zheng', cursive; font-size: 2.4rem; margin-bottom: 20px;
+    }
+    .culture-text p { margin-bottom: 16px; text-align: justify; font-size: 1.05rem; }
+    .quote {
+      border-left: 3px solid var(--red); padding-left: 20px; margin: 24px 0;
+      color: var(--brown); font-style: italic;
+    }
+
+    /* DIY工坊入口 */
+    .diy-section {
+      padding: 100px 5%; text-align: center;
+      background: linear-gradient(180deg, var(--bg-warm) 0%, var(--bg) 100%);
+    }
+    .diy-box {
+      max-width: 800px; margin: 0 auto;
+      border: 2px dashed var(--brown); border-radius: 16px; padding: 60px 40px;
+      position: relative;
+    }
+    .diy-box::before, .diy-box::after {
+      content: '◆'; position: absolute; color: var(--red); font-size: 1.2rem;
+    }
+    .diy-box::before { top: 12px; left: 12px; }
+    .diy-box::after { bottom: 12px; right: 12px; }
+    .diy-box h2 { font-family: 'Ma Shan Zheng', cursive; font-size: 2.4rem; margin-bottom: 16px; }
+    .diy-box p { color: var(--brown); margin-bottom: 32px; font-size: 1.1rem; }
+    .diy-coming {
+      display: inline-block; padding: 12px 40px; background: var(--ink); color: var(--gold);
+      border-radius: 4px; font-size: 1.1rem; letter-spacing: 4px;
+    }
+
+    /* 页脚 */
+    footer {
+      background: var(--ink); color: rgba(245,230,200,0.7); text-align: center;
+      padding: 40px 5%; font-size: 0.9rem;
+    }
+    footer .logo { color: var(--bg); margin-bottom: 12px; }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* 装饰元素 */
+    .seal {
+      display: inline-block; width: 48px; height: 48px; border: 2px solid var(--red);
+      border-radius: 4px; color: var(--red); font-family: 'Ma Shan Zheng', cursive;
+      font-size: 0.7rem; display: flex; align-items: center; justify-content: center;
+      transform: rotate(-5deg); opacity: 0.6; margin-top: 16px;
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .mobile-menu { display: block; }
+      .hero h1 { font-size: 3.2rem; }
+      .hero-content { padding: 0 5%; }
+      .culture { flex-direction: column; gap: 40px; }
+      .region-grid { gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 导航 -->
+  <nav>
+    <div class="logo">瓦猫新生 <span>文化中国</span></div>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a ></li>
+      <li><a href="chenggong.html">呈贡瓦猫</a ></li>
+      <li><a href="dali.html">大理瓦猫</a ></li>
+      <li><a href="lijiang.html">丽江瓦猫</a ></li>
+      <li><a href="#diy">DIY工坊</a ></li>
+    </ul>
+    <div class="mobile-menu">☰</div>
+  </nav>
+
+  <!-- Hero区 -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-subtitle">滇云之脊 · 千载传承</div>
+      <h1>瓦猫新生</h1>
+      <p class="hero-desc">
+        滇云之脊，栖一灵兽。名曰瓦猫，实寓虎威，取猫之形，纳虎之魄。
+        它踞于屋脊之上，俯仰天地之间，吞金纳福，镇守家宅，庇佑一方安宁。
+        今以数字为媒，邀君共赴一场跨越时空的创作。
+      </p >
+      <div class="btn-group">
+        <a href="#regions" class="btn btn-primary">探索地域流派 →</a >
+        <a href="#culture" class="btn btn-outline">了解文化溯源</a >
+      </div>
+      <div class="seal">非遗</div>
+    </div>
+  </section>
+
+  <!-- 地区入口 -->
+  <section class="regions" id="regions">
+    <div class="section-header">
+      <h2>一方水土 · 一方灵兽</h2>
+      <div class="divider"></div>
+      <p>南诏以降，千载传承，其形无定，千猫千面</p >
+    </div>
+    <div class="region-grid">
+      <a href="chenggong.html" class="region-card">
+        <div class="region-img" style="background-image: url('images/wamao-chenggong.jpg');">
+          <span class="region-tag">呈贡</span>
+        </div>
+        <div class="region-body">
+          <h3>呈贡瓦猫 · 俏皮灵动</h3>
+          <p>张口露齿，双目炯炯，耳朵高耸，形貌活泼。圆头圆脑、脚踩瓦片，暗合"天圆地方"之意。</p >
+          <div class="region-traits">
+            <span class="trait">奶凶气质</span>
+            <span class="trait">八卦图</span>
+            <span class="trait">王字纹</span>
+          </div>
+        </div>
+      </a >
+      <a href="dali.html" class="region-card">
+        <div class="region-img" style="background-image: url('images/wamao-dali-1.jpg');">
+          <span class="region-tag">大理</span>
+        </div>
+        <div class="region-body">
+          <h3>大理瓦猫 · 威仪奔放</h3>
+          <p>嘴巴大张，几乎占据整个头部。造型夸张奔放，蹲姿踞守，虎气十足。"口要张，肚要空，屁眼要通"。</p >
+          <div class="region-traits">
+            <span class="trait">吞金屙银</span>
+            <span class="trait">独角虎</span>
+            <span class="trait">飞虎</span>
+          </div>
+        </div>
+      </a >
+      <a href="lijiang.html" class="region-card">
+        <div class="region-img" style="background-image: url('images/wamao-lijiang.jpg');">
+          <span class="region-tag">丽江</span>
+        </div>
+        <div class="region-body">
+          <h3>丽江瓦猫 · 古拙想象</h3>
+          <p>造型最富想象力，似麒麟类龙狮，脖子修长。伫立屋脊，守望古城，承载纳西族人对安宁生活的祈愿。</p >
+          <div class="region-traits">
+            <span class="trait">麒麟形</span>
+            <span class="trait">龙狮韵</span>
+            <span class="trait">长颈古拙</span>
+          </div>
+        </div>
+      </a >
+    </div>
+  </section>
+
+  <!-- 文化溯源 -->
+  <section class="culture" id="culture">
+    <div class="culture-img">
+      <img src="images/wamao-overview.jpg" alt="瓦猫 overview">
+    </div>
+    <div class="culture-text">
+      <h2>屋脊上的守护灵</h2>
+      <p>
+        瓦猫，云南特有的屋脊兽，以陶土塑形，经烈火烧制，最终踞于民居正脊、角脊或门头之上。
+        它非猫非虎，却取猫之形、纳虎之魄，是云南多民族文化交融的活化石。
+      </p >
+      <div class="quote">
+        "吞金纳福，镇守家宅，庇佑一方安宁。"
+      </div>
+      <p>
+        从呈贡的俏皮灵动，到大理的威仪奔放，再到丽江的古拙想象——
+        每一只瓦猫都凝结着手艺人的指尖温度，也承载着一方百姓对美好生活的朴素向往。
+      </p >
+      <p>
+        如今，这只古老的守护神正从屋脊走向茶席、从坊间走进展厅，
+        以崭新的姿态融入当代生活，完成它的"新生"。
+      </p >
+    </div>
+  </section>
+
+  <!-- DIY工坊入口 -->
+  <section class="diy-section" id="diy">
+    <div class="diy-box">
+      <h2>DIY 瓦猫工坊</h2>
+      <p>选其形，赋其色，塑其神。让这只古老的守护神，以你心之所想，重生于指尖之下。</p >
+      <div class="diy-coming">即将开启 · 敬请期待</div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer>
+    <div class="logo">瓦猫新生</div>
+    <p>“文化中国”参赛作品 · 云南瓦猫文化数字互动体验</p >
+    <p style="margin-top:8px; opacity:0.6;">请君入座，共塑灵兽</p >
+  </footer>
+
+</body>
+</html>

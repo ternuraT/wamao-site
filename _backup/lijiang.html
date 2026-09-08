@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>丽江瓦猫 — 古拙想象 · 瓦猫新生</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F5E6C8; --bg-warm: #EDE0C8; --ink: #1A1A1A;
+      --text: #2C2C2C; --red: #B83A2B; --brown: #5C3A1E; --gold: #C9A227;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Serif SC', 'SimSun', serif;
+      background: var(--bg); color: var(--text); line-height: 1.8;
+    }
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      background: rgba(245,230,200,0.95); backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(92,58,30,0.15);
+      padding: 0 5%; height: 64px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-family: 'Ma Shan Zheng', cursive; font-size: 1.8rem; color: var(--ink); letter-spacing: 4px; }
+    .logo span { color: var(--red); font-size: 1.2rem; margin-left: 8px; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text); font-size: 0.95rem; position: relative; padding: 4px 0; transition: color 0.3s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--red); transition: width 0.3s; }
+    .nav-links a:hover { color: var(--red); }
+    .nav-links a:hover::after { width: 100%; }
+    .mobile-menu { display: none; font-size: 1.5rem; cursor: pointer; }
+
+    .page-hero {
+      min-height: 60vh; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--bg-warm) 0%, var(--bg) 100%);
+      position: relative; padding-top: 64px; text-align: center;
+    }
+    .page-hero::before {
+      content: '丽江'; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      font-family: 'Ma Shan Zheng', cursive; font-size: 10rem; color: var(--red); opacity: 0.06; z-index: 0;
+    }
+    .page-hero-content { position: relative; z-index: 1; }
+    .page-hero h1 { font-family: 'Ma Shan Zheng', cursive; font-size: 3.6rem; color: var(--ink); margin-bottom: 12px; }
+    .page-hero .subtitle { color: var(--brown); font-size: 1.2rem; letter-spacing: 4px; }
+    .divider { width: 60px; height: 3px; background: var(--red); margin: 20px auto; border-radius: 2px; }
+
+    .content { max-width: 1000px; margin: 0 auto; padding: 80px 5%; }
+    .content h2 {
+      font-family: 'Ma Shan Zheng', cursive; font-size: 2rem; color: var(--ink);
+      margin: 48px 0 20px; display: flex; align-items: center; gap: 12px;
+    }
+    .content h2::before { content: ''; width: 4px; height: 28px; background: var(--red); border-radius: 2px; }
+    .content p { margin-bottom: 16px; text-align: justify; font-size: 1.05rem; }
+    .highlight-box {
+      background: rgba(184,58,43,0.06); border-left: 4px solid var(--red);
+      padding: 24px 28px; margin: 28px 0; border-radius: 0 8px 8px 0;
+    }
+    .highlight-box p { margin: 0; color: var(--brown); font-size: 1.1rem; }
+
+    .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 40px 0; }
+    .gallery-item { border-radius: 8px; overflow: hidden; box-shadow: 0 8px 24px rgba(26,26,26,0.08); }
+    .gallery-item img { width: 100%; display: block; transition: transform 0.4s; }
+    .gallery-item:hover img { transform: scale(1.05); }
+    .gallery-caption { padding: 12px 16px; background: var(--bg-warm); font-size: 0.9rem; color: var(--brown); text-align: center; }
+
+.traits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+.trait {
+  padding: 10px 12px;
+  background: var(--ink); color: var(--gold);
+  border-radius: 4px; font-size: 0.9rem; letter-spacing: 2px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 8px; margin-top: 40px;
+      padding: 12px 28px; background: transparent; color: var(--ink);
+      border: 2px solid var(--brown); border-radius: 4px; text-decoration: none;
+      transition: all 0.3s; font-family: 'Noto Serif SC', serif;
+    }
+    .back-btn:hover { background: var(--brown); color: var(--bg); }
+
+    footer {
+      background: var(--ink); color: rgba(245,230,200,0.7); text-align: center;
+      padding: 40px 5%; font-size: 0.9rem; margin-top: 60px;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .mobile-menu { display: block; }
+      .page-hero h1 { font-size: 2.6rem; }
+      .page-hero::before { font-size: 6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">瓦猫新生 <span>文化中国</span></div>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a ></li>
+      <li><a href="chenggong.html">呈贡瓦猫</a ></li>
+      <li><a href="dali.html">大理瓦猫</a ></li>
+      <li><a href="lijiang.html">丽江瓦猫</a ></li>
+    </ul>
+    <div class="mobile-menu">☰</div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="subtitle">玉龙雪山下 · 丽江古城</div>
+      <h1>丽江瓦猫</h1>
+      <div class="divider"></div>
+      <p style="color: var(--brown); font-size: 1.1rem;">古拙想象 · 麒麟龙狮 · 长颈灵韵</p >
+    </div>
+  </section>
+
+  <div class="content">
+    <div class="gallery">
+      <div class="gallery-item">
+        <img src="images/wamao-lijiang.jpg" alt="丽江瓦猫">
+        <div class="gallery-caption">丽江瓦猫 — 伫立屋脊之上</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/wamao-overview.jpg" alt="瓦猫 overview">
+        <div class="gallery-caption">云南瓦猫概览 — 屋脊上的非遗</div>
+      </div>
+    </div>
+
+    <h2>形貌特征</h2>
+    <p>
+      丽江瓦猫造型<strong>最富想象力</strong>，似麒麟类龙狮，脖子修长。
+      与呈贡的俏皮、大理的威仪不同，丽江瓦猫呈现出一种超脱现实的神秘气质。
+    </p >
+    <div class="highlight-box">
+      <p>它融合了纳西族东巴文化中的神兽意象，将猫、虎、麒麟、龙狮的特征熔于一炉，创造出独一无二的屋脊守护形象。</p >
+    </div>
+    <p>
+      修长的脖颈使丽江瓦猫显得格外挺拔，仿佛随时会昂首长啸；
+      而古拙的线条处理，又赋予它历经岁月洗礼的沧桑感与神圣感。
+    </p >
+
+    <h2>文化寓意</h2>
+    <p>
+      丽江瓦猫不仅是建筑构件，更是纳西族精神世界的外化。
+      在玉龙雪山的庇佑下，纳西先民将他们对自然神灵的敬畏、对家宅平安的祈愿，
+      都熔铸在这尊小小的陶兽之中。
+    </p >
+    <p>
+      "似麒麟类龙狮"的造型特征，体现了纳西文化对多元神兽图腾的吸收与再造。
+      它既非纯粹的猫，也非纯粹的虎，而是一种超越具体物象的"灵"——
+      守护着古城的每一座院落，也守护着纳西人代代相传的文化记忆。
+    </p >
+
+    <h2>与古城共生</h2>
+    <p>
+      漫步丽江古城，抬头仰望那些历经数百年风雨的民居屋脊，
+      常常能与这些静默的守护者不期而遇。
+      它们与古城的流水、石桥、五花石路共同构成了丽江独特的人文景观，
+      是活着的非遗，是凝固的时光。
+    </p >
+
+    <div class="traits">
+      <span class="trait">麒麟形</span>
+      <span class="trait">龙狮韵</span>
+      <span class="trait">脖子修长</span>
+      <span class="trait">古拙神秘</span>
+      <span class="trait">东巴文化</span>
+      <span class="trait">屋脊守望</span>
+    </div>
+
+    <a href="index.html" class="back-btn">← 返回主页</a >
+  </div>
+
+  <footer>
+    <p>“文化中国”参赛作品 · 云南瓦猫文化数字互动体验</p >
+  </footer>
+
+</body>
+</html>
