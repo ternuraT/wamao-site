@@ -56,6 +56,9 @@
               <span class="w-7 h-7 bg-wamao-red text-white rounded-full text-sm flex items-center justify-center">2</span>
               披彩衣 · 加纹饰 · 自由画
             </h3>
+            <div class="mb-5">
+              <StylePicker :model-value="store.styleId" :bone-id="store.boneId" @select="store.setStyle($event)" />
+            </div>
             <ColorPainter
               :base="store.colors.base"
               :overlay="store.colors.overlay"
@@ -112,6 +115,7 @@ import WorkshopCanvas from '@/components/workshop/WorkshopCanvas.vue'
 import BoneSelector from '@/components/workshop/BoneSelector.vue'
 import ColorPainter from '@/components/workshop/ColorPainter.vue'
 import StepController from '@/components/workshop/StepController.vue'
+import StylePicker from '@/components/workshop/StylePicker.vue'
 import PosterGenerator from '@/components/workshop/PosterGenerator.vue'
 
 const store = useCatConfigStore()

@@ -15,6 +15,7 @@ export interface BrushStroke {
 
 export interface CatConfig {
   boneId: string
+  styleId: string | null
   features: { eyes: string; nose: string; mouth: string }
   colors: { base: string; accent: string; overlay: string }
   decorations: string[]
@@ -26,8 +27,15 @@ export interface CatConfig {
 
 const defaultDecoState = (): DecorationState => ({ x: 0.5, y: 0.5, scale: 1 })
 
+function parseOverlayRgba(overlay: string) {
+  const match = overlay.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/)
+  if (!match) return { r: 139, g: 69, b: 19, a: 0.3 }
+  return { r: parseInt(match[1]), g: parseInt(match[2]), b: parseInt(match[3]), a: match[4] ? parseFloat(match[4]) : 1 }
+}
+
 const defaultConfig: CatConfig = {
   boneId: 'bone1',
+  styleId: null,
   features: { eyes: 'default', nose: 'default', mouth: 'default' },
   colors: { base: '#F5E6C8', accent: '#FFD700', overlay: 'rgba(139,69,19,0.3)' },
   decorations: [],
@@ -39,6 +47,7 @@ const defaultConfig: CatConfig = {
 
 export const useCatConfigStore = defineStore('catConfig', () => {
   const boneId = ref(defaultConfig.boneId)
+  const styleId = ref<string | null>(defaultConfig.styleId)
   const features = ref({ ...defaultConfig.features })
   const colors = ref({ ...defaultConfig.colors })
   const decorations = ref<string[]>([...defaultConfig.decorations])
@@ -50,6 +59,7 @@ export const useCatConfigStore = defineStore('catConfig', () => {
 
   const currentConfig = computed<CatConfig>(() => ({
     boneId: boneId.value,
+    styleId: styleId.value,
     features: { ...features.value },
     colors: { ...colors.value },
     decorations: [...decorations.value],
@@ -67,6 +77,20 @@ export const useCatConfigStore = defineStore('catConfig', () => {
   function setBone(id: string) {
     pushHistory()
     boneId.value = id
+    // 风格素材与胎骨一一对应，换胎骨时清除已选风格
+    styleId.value = null
+  }
+
+  function setStyle(id: string | null) {
+    pushHistory()
+    styleId.value = id
+    if (id) {
+      // 风格图本身已是成品彩绘，默认去掉釉色叠加以免遮盖风格；用户仍可自行加回
+      const overlay = parseOverlayRgba(colors.value.overlay)
+      if (overlay.a > 0.01) {
+        colors.value.overlay = `rgba(${overlay.r},${overlay.g},${overlay.b},0)`
+      }
+    }
   }
 
   function updateFeature(part: keyof CatConfig['features'], style: string) {
@@ -127,6 +151,7 @@ export const useCatConfigStore = defineStore('catConfig', () => {
     const prev = history.value.pop()
     if (prev) {
       boneId.value = prev.boneId
+      styleId.value = prev.styleId
       features.value = { ...prev.features }
       colors.value = { ...prev.colors }
       decorations.value = [...prev.decorations]
@@ -140,6 +165,7 @@ export const useCatConfigStore = defineStore('catConfig', () => {
   function reset() {
     pushHistory()
     boneId.value = defaultConfig.boneId
+    styleId.value = defaultConfig.styleId
     features.value = { ...defaultConfig.features }
     colors.value = { ...defaultConfig.colors }
     decorations.value = [...defaultConfig.decorations]
@@ -150,10 +176,10 @@ export const useCatConfigStore = defineStore('catConfig', () => {
   }
 
   return {
-    boneId, features, colors, decorations, decorationStates,
+    boneId, styleId, features, colors, decorations, decorationStates,
     brushStrokes, brushColor, brushSize, history,
     currentConfig,
-    setBone, updateFeature, applyColor, toggleDecoration,
+    setBone, setStyle, updateFeature, applyColor, toggleDecoration,
     setDecorationState, addBrushStroke, setBrushColor, setBrushSize, clearBrushStrokes,
     undo, reset
   }

@@ -38,6 +38,14 @@ const boneImages: Record<string, string> = {
   bone4: '/images/wamao-yuanshi4.png'
 }
 
+// 一键风格化素材：与胎骨一一对应（民俗彩塑系列）
+const styleImages: Record<string, string> = {
+  bone1: '/images/wamao-style1.png',
+  bone2: '/images/wamao-style2.png',
+  bone3: '/images/wamao-style3.png',
+  bone4: '/images/wamao-style4.png'
+}
+
 const decoImages: Record<string, string> = {
   bagua: '/images/baguatu.png',
   yun1: '/images/wamao-xianyunwen1.png',
@@ -110,7 +118,9 @@ async function render() {
   loading.value = true
   try {
     const boneSrc = boneImages[store.boneId] || boneImages.bone1
-    const img = await preloadImage(boneSrc)
+    // 一键风格化：选中风格且与当前胎骨匹配时，使用风格彩绘素材
+    const useStyle = store.styleId && store.styleId === store.boneId && styleImages[store.boneId]
+    const img = await preloadImage(useStyle || boneSrc)
 
     const dpr = window.devicePixelRatio || 1
     const displayWidth = canvas.clientWidth || 500
